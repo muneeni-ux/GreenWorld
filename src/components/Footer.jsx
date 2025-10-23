@@ -4,7 +4,7 @@ import { Facebook, Twitter, Instagram, Linkedin, Mail } from "lucide-react";
 
 function Footer() {
   return (
-    <footer className="bg-gradient-to-r from-green-900 via-green-800 to-emerald-900 text-white py-10 px-6 rounded-t-3xl shadow-inner">
+    <footer className="bg-gradient-to-r from-green-900 via-green-800 to-emerald-900 text-white py-10 px-6 rounded-t-3xl shadow-inner mt-2">
       <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-10">
         
         {/* About */}
@@ -23,7 +23,7 @@ function Footer() {
           <h3 className="text-base font-semibold mb-3 text-yellow-400">Quick Links</h3>
           <ul className="space-y-2 text-sm">
             <li>
-              <Link to="/" className="hover:text-yellow-300 hover:underline transition">
+              <Link to="/home" className="hover:text-yellow-300 hover:underline transition">
                 Home
               </Link>
             </li>
@@ -68,7 +68,7 @@ function Footer() {
       {/* Logo */}
       <div className="text-center">
         <img
-          src="./greenworldlogo.png"
+          src="./greenworld1.jpg"
           alt="Green World Logo"
           className="w-20 h-20 mx-auto rounded-full shadow-md border border-white/20"
         />

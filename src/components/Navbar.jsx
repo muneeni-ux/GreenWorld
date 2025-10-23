@@ -19,8 +19,8 @@ const Navbar = ({ setIsLoggedIn }) => {
   const navigate = useNavigate();
 
   const user = JSON.parse(localStorage.getItem("user")) || {
-    name: "Agent John",
-    role: "Sales Agent",
+    name: "Agent",
+    // role: "Sales Agent",
   };
 
   // ✅ Main navigation links - Used BarChart for Dashboard/Home
@@ -121,8 +121,8 @@ const Navbar = ({ setIsLoggedIn }) => {
           >
             <User className="h-5 w-5 text-green-700" />
             <div className="text-sm">
-              <p className="text-gray-800 font-semibold">{user.name}</p>
-              <p className="text-xs text-gray-500">{user.role}</p>
+              <p className="text-gray-800 font-semibold">{user.username}</p>
+              {/* <p className="text-xs text-gray-500">{user.role}</p> */}
             </div>
           </div>
 
@@ -192,9 +192,9 @@ const Navbar = ({ setIsLoggedIn }) => {
           <div className="mt-2 p-3 bg-green-800 rounded-lg shadow-inner">
             <p className="font-semibold flex items-center gap-2">
                 <User size={16} className="text-green-300"/> 
-                {user.name}
+                {user.username}
             </p>
-            <p className="text-xs text-green-300 ml-6">{user.role}</p>
+            {/* <p className="text-xs text-green-300 ml-6">{user.role}</p> */}
           </div>
         </div>
 

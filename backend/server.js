@@ -9,14 +9,8 @@ const dotenv = require("dotenv");
 require("dotenv").config();
 const connectdb = require("./config/db");
 const AdminAuth = require("./routes/AdminAuth.js");
-const Uploads = require("./routes/UploadRoute.js");
-const mail = require("./routes/SendMail.js");
-const sms = require("./routes/SmsRoute.js");
-const visitor = require("./routes/VisitorRoutes.js");
-const occurrence = require("./routes/OccurenceRoute.js");
 const auth = require("./routes/LoginSignup.js");
-const inquiryStaffRoutes = require("./routes/InquiryRoute.js");
-const faqRoutes = require("./routes/FAQRoute.js");
+const stockRoutes = require("./routes/StockRoutes.js");
 const errorHandler = require("./middleware/Errorhandler.js");
 
 dotenv.config();
@@ -29,7 +23,6 @@ app.set('trust proxy', 1);
 const allowedOrigins = [
   "http://localhost:3000", // For development
   "http://localhost:3001", // For development
-  "https://magnet-gatepass.onrender.com",
 ];
 
 app.use(cors({
@@ -68,15 +61,9 @@ app.use((err, req, res, next) => {
 });
 
 // Routes
-app.use('/api/sendmail', mail); // Send mail routes
-app.use("/api/sms", sms); // File upload routes
 app.use("/api/admin", AdminAuth); // Admin Auth routes
-app.use("/api/visitors", visitor); // Only authenticated users can track 
-app.use("/api/occurrences", occurrence);
 app.use("/api/auth", auth); // Authentication routes
-app.use("/api/inquiry-staff", inquiryStaffRoutes);
-app.use("/api/upload", Uploads); // Image upload route
-app.use("/api/faq", faqRoutes); // FAQ routes
+app.use("/api/stock", stockRoutes);
 
 // Graceful Shutdown
 process.on("SIGINT", () => {

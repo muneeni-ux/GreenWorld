@@ -74,11 +74,6 @@ const Home = () => {
           — enabling smarter business insights and accountability.
         </p>
       </div>
-
-      {/* Footer */}
-      <footer className="mt-16 text-center text-gray-500 text-sm">
-        © {new Date().getFullYear()} Green World Mwingi Branch. All rights reserved.
-      </footer>
     </div>
   );
 };

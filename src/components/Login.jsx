@@ -1,35 +1,56 @@
 import React, { useState } from "react";
 import { LockKeyhole, Eye, EyeOff, Leaf } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+
+const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 const Login = ({ onLogin }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate();
 
-  // Temporary mock login
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setErrorMsg("");
 
-    setTimeout(() => {
-      if (username === "agent" && password === "1234") {
-        localStorage.setItem("userRole", "agent");
-        onLogin();
-        navigate("/stock");
-      } else if (username === "admin" && password === "1234") {
-        localStorage.setItem("userRole", "admin");
-        onLogin();
-        navigate("/home");
-      } else {
-        setErrorMsg("Invalid credentials. Try admin/agent with password 1234.");
+    try {
+      const response = await fetch(`${SERVER_URL}/api/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        toast.error(data.message || "Login failed");
+        setLoading(false);
+        return;
       }
+
+      // ✅ Save token + user info to localStorage
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+
+      toast.success("Login successful!");
+
+      onLogin();
+
+      // Redirect based on role
+      if (data.user.isAdmin) {
+        navigate("/admin/dashboard");
+      } else {
+        navigate("/home");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      toast.error("Server error. Try again later.");
+    } finally {
       setLoading(false);
-    }, 1000);
+    }
   };
 
   return (
@@ -58,13 +79,6 @@ const Login = ({ onLogin }) => {
             </p>
           </div>
 
-          {/* Error Message */}
-          {errorMsg && (
-            <div className="mb-4 text-sm text-red-200 bg-red-800/30 px-4 py-2 rounded-md border border-red-400/30">
-              {errorMsg}
-            </div>
-          )}
-
           {/* Login Form */}
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Username */}
@@ -78,7 +92,7 @@ const Login = ({ onLogin }) => {
                 onChange={(e) => setUsername(e.target.value)}
                 required
                 className="w-full px-4 py-2 rounded-lg bg-white/20 border border-white/40 text-white placeholder-gray-200 focus:outline-none focus:ring-2 focus:ring-green-400"
-                placeholder="Enter username (admin or agent)"
+                placeholder="Enter your username"
               />
             </div>
 
@@ -94,23 +108,19 @@ const Login = ({ onLogin }) => {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   className="w-full px-4 py-2 rounded-lg bg-white/20 border border-white/40 text-white placeholder-gray-200 focus:outline-none focus:ring-2 focus:ring-green-400 pr-10"
-                  placeholder="Enter password (1234)"
+                  placeholder="Enter your password"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute inset-y-0 right-3 flex items-center text-gray-300 hover:text-white focus:outline-none"
                 >
-                  {showPassword ? (
-                    <EyeOff className="h-5 w-5" />
-                  ) : (
-                    <Eye className="h-5 w-5" />
-                  )}
+                  {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                 </button>
               </div>
             </div>
 
-            {/* Submit Button */}
+            {/* Submit */}
             <button
               type="submit"
               disabled={loading}
@@ -126,7 +136,6 @@ const Login = ({ onLogin }) => {
         </div>
       </main>
 
-      {/* Footer */}
       <footer className="text-center text-white/70 py-4 text-sm">
         © {new Date().getFullYear()} Green World Mwingi Branch — Secure Access Portal
       </footer>

@@ -11,7 +11,6 @@ import Signup from './components/SignUp';
 import UsersDetails from "./Admin/UserDetails";
 import AdminDashboard from "./Admin/AdminDashboard";
 import ProtectedRoute from "./Admin/ProtectedRoute";
-import VisitordsDetails from './Admin/VisitordsDetails';
 // User components
 import NotFound from './pages/NotFound';
 import Sales from './pages/Sales';
@@ -57,8 +56,7 @@ const App = () => {
       {!shouldHideNavAndFooter && isLoggedIn && !isAdmin && <Navbar setIsLoggedIn={() => {}} />}
 
       <Routes>
-        {/* <Route path="/" element={<Login onLogin={() => {}} />} /> */}
-        <Route path="/" element={<Navbar />} />
+        <Route path="/" element={<Login onLogin={() => {}} />} />
 
         {isLoggedIn && !isAdmin && (
           <>
@@ -82,7 +80,6 @@ const App = () => {
           <Route index element={<Navigate to="users" replace />} />
           <Route path="users" element={<UsersDetails />} />
           <Route path="usersignup" element={<Signup />} />
-          <Route path="visitorsdetails" element={<VisitordsDetails />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />
