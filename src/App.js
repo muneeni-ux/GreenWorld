@@ -17,6 +17,9 @@ import Sales from './pages/Sales';
 import Stock from './pages/Stock';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
+import ManageDistributors from './Admin/ManageDistributors';
+import ManageStock from './Admin/ManageStock';
+import ManageSales from './Admin/ManageSales';
 
 const App = () => {
   const location = useLocation();
@@ -79,7 +82,10 @@ const App = () => {
         >
           <Route index element={<Navigate to="users" replace />} />
           <Route path="users" element={<UsersDetails />} />
-          <Route path="usersignup" element={<Signup />} />
+          {/* <Route path="usersignup" element={<Signup />} /> */}
+          <Route path="sales" element={<ManageSales />} />
+          <Route path="stock" element={<ManageStock />} />
+          <Route path="dist" element={<ManageDistributors />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />
